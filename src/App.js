@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import { Button } from '@material-ui/core';
+import React, { useState } from 'react';
+import useForm from './hooks/useForm';
+import NameForm from './NameForm';
+import Welcome from './Welcome';
 
-function App() {
+const initialForm = {
+  firstName: '',
+  lastName: '',
+};
+
+const App = () => {
+  const [showWelcome, setShowWelcome] = useState(false);
+  const [form, getHandler] = useForm(initialForm);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <NameForm
+        form={form}
+        getHandler={getHandler}
+      />
+      {
+        showWelcome && <Welcome name={`${form.firstName} ${form.lastName}`} />
+      }
+      <Button
+        variant="contained"
+        onClick={() => setShowWelcome(true)}
+      >
+        Welcome
+      </Button>
+    </React.Fragment>
   );
-}
+};
 
 export default App;
